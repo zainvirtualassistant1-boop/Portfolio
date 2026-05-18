@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Developer Portfolio — 3D Leads</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0e0e0e;
+    --ink-muted: #555;
+    --ink-faint: #999;
+    --bg: #f7f4ef;
+    --bg-card: #fff;
+    --accent: #c8502a;
+    --accent-light: #f0e4dc;
+    --rule: #ddd;
+    --radius: 4px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 60px;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-muted); text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: 140px 5vw 80px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent);
+    padding: 4px 12px; border-radius: 2px; margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.1; font-weight: 700;
+    color: var(--ink); margin-bottom: 1.2rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc {
+    font-size: 1rem; color: var(--ink-muted);
+    max-width: 420px; line-height: 1.75; margin-bottom: 2rem;
+  }
+  .hero-stats {
+    display: flex; gap: 2.5rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--ink);
+  }
+  .stat-label {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-faint); margin-top: 2px;
+  }
+  .hero-visual {
+    position: relative;
+  }
+  .hero-stack {
+    position: relative; width: 100%; padding-bottom: 60%;
+  }
+  .stack-card {
+    position: absolute;
+    border-radius: 6px; border: 1px solid var(--rule);
+    background: var(--bg-card); overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0,0,0,.07);
+  }
+  .stack-card-1 { width: 75%; top: 0; left: 12%; z-index: 3; transform: rotate(-1.5deg); }
+  .stack-card-2 { width: 65%; top: 10%; left: 0; z-index: 2; transform: rotate(2.5deg); opacity: .8; }
+  .stack-card-3 { width: 65%; top: 15%; right: 0; z-index: 1; transform: rotate(-3deg); opacity: .55; }
+  .card-bar { height: 28px; background: var(--ink); display: flex; align-items: center; padding: 0 10px; gap: 5px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .card-body { padding: 12px; }
+  .card-line { height: 6px; border-radius: 3px; background: var(--rule); margin-bottom: 6px; }
+
+  /* DIVIDER */
+  .section-rule {
+    max-width: 1200px; margin: 0 auto; padding: 0 5vw;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* SECTION HEADING */
+  .section-head {
+    max-width: 1200px; margin: 0 auto; padding: 4rem 5vw 2.5rem;
+    display: flex; align-items: baseline; gap: 1.5rem;
+  }
+  .section-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700;
+  }
+  .section-head span {
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* PROJECTS GRID */
+  .projects {
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 5vw 6rem;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    transition: transform .3s ease, box-shadow .3s ease;
+    cursor: pointer;
+    text-decoration: none; color: inherit;
+    display: block;
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.1); z-index: 1; position: relative; }
+
+  .project-thumb {
+    width: 100%; aspect-ratio: 16/9;
+    background: var(--ink);
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .browser-chrome {
+    height: 32px; background: #1a1a1a; flex-shrink: 0;
+    display: flex; align-items: center; padding: 0 12px; gap: 6px;
+  }
+  .browser-chrome .dot { background: #555; }
+  .url-bar {
+    flex: 1; height: 16px; background: #2a2a2a; border-radius: 8px;
+    margin: 0 10px; display: flex; align-items: center; padding: 0 8px;
+    font-size: 9px; color: #777; letter-spacing: 0.04em; overflow: hidden;
+  }
+  .browser-content {
+    flex: 1; display: flex; flex-direction: column;
+    position: relative;
+  }
+  /* Project-specific illustration styles */
+  .proj-ventures .browser-content { background: #0a0a0a; }
+  .proj-latif .browser-content { background: #1a2744; }
+  .proj-verdun .browser-content { background: #1b3a6b; }
+  .proj-global .browser-content { background: #0f2340; }
+
+  .proj-hero-bar {
+    width: 100%; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 14px;
+  }
+  .proj-ventures .proj-hero-bar { background: linear-gradient(135deg, #b5295a 0%, #3d1a44 100%); }
+  .proj-latif .proj-hero-bar { background: linear-gradient(135deg, #1a5276 0%, #0e2f52 100%); }
+  .proj-verdun .proj-hero-bar { background: linear-gradient(135deg, #1b3a6b 0%, #0d2040 100%); }
+  .proj-global .proj-hero-bar { background: linear-gradient(135deg, #1a3a5c 0%, #0a1e30 100%); }
+
+  .proj-title-mock { font-family: 'Playfair Display', serif; font-size: 10px; color: #fff; margin-bottom: 4px; letter-spacing: 0.05em; }
+  .proj-sub-mock { font-size: 7px; color: rgba(255,255,255,.6); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .proj-nav-mock {
+    height: 22px; background: rgba(255,255,255,.08);
+    display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  }
+  .nav-dot-mock { width: 28px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.3); }
+  .nav-dot-mock.accent { background: rgba(255,255,255,.8); }
+
+  .proj-body-mock {
+    flex: 1; padding: 8px 12px;
+    display: flex; gap: 8px;
+  }
+  .mock-col { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .mock-line { height: 4px; border-radius: 2px; background: rgba(255,255,255,.12); }
+  .mock-line.w60 { width: 60%; }
+  .mock-line.w80 { width: 80%; }
+  .mock-line.w40 { width: 40%; }
+  .mock-btn-mock { width: 50px; height: 12px; border-radius: 2px; background: rgba(255,120,80,.6); margin-top: 4px; }
+
+  /* Card info */
+  .project-info { padding: 1.5rem; }
+  .proj-category {
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .proj-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;
+  }
+  .proj-desc { font-size: 0.875rem; color: var(--ink-muted); line-height: 1.65; margin-bottom: 1rem; }
+
+  .tech-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+  .tech-pill {
+    font-size: 0.68rem; letter-spacing: 0.06em; padding: 3px 10px;
+    border: 1px solid var(--rule); border-radius: 20px;
+    color: var(--ink-muted); background: var(--bg);
+  }
+  .proj-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px; transition: color .2s, border-color .2s;
+  }
+  .proj-link:hover { color: var(--accent); border-color: var(--accent); }
+  .proj-link svg { transition: transform .2s; }
+  .proj-link:hover svg { transform: translateX(3px) translateY(-3px); }
+
+  /* SKILLS SECTION */
+  .skills-section {
+    background: var(--ink); color: #fff;
+    padding: 5rem 5vw;
+  }
+  .skills-inner { max-width: 1200px; margin: 0 auto; }
+  .skills-inner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    color: #fff; margin-bottom: 3rem;
+  }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
+  .skill-item {
+    border-top: 1px solid rgba(255,255,255,.15);
+    padding-top: 1rem;
+  }
+  .skill-name {
+    font-size: 0.9rem; font-weight: 500; margin-bottom: 0.3rem;
+  }
+  .skill-level {
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,.4);
+  }
+  .skill-bar-bg { height: 2px; background: rgba(255,255,255,.15); margin-top: 0.8rem; border-radius: 1px; }
+  .skill-bar-fill { height: 100%; background: var(--accent); border-radius: 1px; }
+
+  /* CTA */
+  .cta-section {
+    max-width: 1200px; margin: 0 auto;
+    padding: 6rem 5vw;
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 3rem;
+  }
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.2;
+  }
+  .cta-section h2 em { font-style: italic; color: var(--accent); }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #fff;
+    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 14px 28px; border-radius: var(--radius);
+    text-decoration: none; white-space: nowrap;
+    transition: background .2s, transform .2s;
+  }
+  .cta-btn:hover { background: #a83f20; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1200px; margin: 0 auto;
+  }
+  footer p { font-size: 0.78rem; color: var(--ink-faint); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp .7s ease both; }
+  .hero > *:nth-child(2) { animation-delay: .15s; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .projects { grid-template-columns: 1fr; }
+    .cta-section { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">3D Leads — Dev</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-tag">Web Developer &amp; Digital Strategist</div>
+    <h1>Crafting <em>digital experiences</em> that convert.</h1>
+    <p class="hero-desc">Based in Lahore, Pakistan — building high-performance websites for businesses across the US, Pakistan, and beyond. From B2B export platforms to insurance agencies.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Live Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Countries Served</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Custom Builds</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="hero-stack">
+      <div class="stack-card stack-card-1">
+        <div class="card-bar"><div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div></div>
+        <div class="card-body">
+          <div class="card-line" style="width:80%"></div>
+          <div class="card-line" style="width:60%"></div>
+          <div class="card-line" style="width:90%; height:40px; margin-top:8px; background:#f0e4dc;"></div>
+          <div class="card-line" style="width:40%; margin-top:8px; background:#c8502a; height:10px;"></div>
+        </div>
+      </div>
+      <div class="stack-card stack-card-2">
+        <div class="card-bar"><div class="dot" style="background:#444"></div><div class="dot" style="background:#444"></div><div class="dot" style="background:#444"></div></div>
+        <div class="card-body">
+          <div class="card-line" style="width:70%"></div>
+          <div class="card-line" style="width:50%"></div>
+        </div>
+      </div>
+      <div class="stack-card stack-card-3">
+        <div class="card-bar"><div class="dot" style="background:#333"></div><div class="dot" style="background:#333"></div><div class="dot" style="background:#333"></div></div>
+        <div class="card-body">
+          <div class="card-line" style="width:85%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-rule"><div style="height:0"></div></div>
+
+<!-- PROJECTS -->
+<div class="section-head" id="work">
+  <h2>Selected Work</h2>
+  <span>2024 – 2025</span>
+</div>
+
+<div class="projects">
+
+  <!-- 1. Ventures -->
+  <a class="project-card" href="https://venturesofc.com/" target="_blank" rel="noopener">
+    <div class="project-thumb proj-ventures">
+      <div class="browser-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url-bar">venturesofc.com</div>
+      </div>
+      <div class="browser-content">
+        <div class="proj-nav-mock">
+          <div class="nav-dot-mock accent"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div>
+        </div>
+        <div class="proj-hero-bar" style="flex:1">
+          <div class="proj-title-mock">Ventures — Premium Pink Salt Suppliers</div>
+          <div class="proj-sub-mock">Lahore, Pakistan · Est. Khewra Mines</div>
+          <div style="margin-top:10px; width:60px; height:20px; background:rgba(200,80,42,.7); border-radius:2px;"></div>
+        </div>
+        <div class="proj-body-mock">
+          <div class="mock-col"><div class="mock-line w80"></div><div class="mock-line w60"></div><div class="mock-line w40"></div></div>
+          <div class="mock-col"><div class="mock-line w60"></div><div class="mock-line w80"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-info">
+      <div class="proj-category">B2B Export · E-commerce</div>
+      <div class="proj-name">Ventures — Pink Salt Suppliers</div>
+      <p class="proj-desc">Full export website for a Lahore-based Himalayan pink salt supplier. Features product catalog, flexible packaging options, international shipping terms (EXW, FOB, C&F), quote request forms, and an admin panel for managing inquiries.</p>
+      <div class="tech-stack">
+        <span class="tech-pill">HTML/CSS/JS</span>
+        <span class="tech-pill">Admin Dashboard</span>
+        <span class="tech-pill">Quote System</span>
+        <span class="tech-pill">WhatsApp Integration</span>
+        <span class="tech-pill">Export B2B</span>
+      </div>
+      <span class="proj-link">View Live Site <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 2. Latif World Travel -->
+  <a class="project-card" href="https://latifworldtravel.com/" target="_blank" rel="noopener">
+    <div class="project-thumb proj-latif">
+      <div class="browser-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url-bar">latifworldtravel.com</div>
+      </div>
+      <div class="browser-content">
+        <div class="proj-nav-mock">
+          <div class="nav-dot-mock accent"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div>
+        </div>
+        <div class="proj-hero-bar" style="flex:1; background:linear-gradient(135deg, #1a6b8a 0%, #0e3250 100%)">
+          <div class="proj-title-mock">Latif World Travel &amp; Tours</div>
+          <div class="proj-sub-mock">Explore the beauty of Pakistan</div>
+          <div style="margin-top:10px; display:flex; gap:6px;">
+            <div style="width:40px; height:14px; background:rgba(255,255,255,.25); border-radius:2px;"></div>
+            <div style="width:40px; height:14px; background:rgba(26,106,138,.8); border-radius:2px;"></div>
+          </div>
+        </div>
+        <div class="proj-body-mock">
+          <div class="mock-col"><div class="mock-line w80"></div><div class="mock-line w60"></div><div class="mock-line w40"></div></div>
+          <div class="mock-col"><div class="mock-line w60"></div><div class="mock-line w80"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-info">
+      <div class="proj-category">Tourism · Domestic Travel</div>
+      <div class="proj-name">Latif World Travel &amp; Tours</div>
+      <p class="proj-desc">Premium tourism website for a Lahore-based travel company offering guided domestic tours across Pakistan — Hunza, Skardu, Swat, and more. Designed to attract adventure travelers with rich imagery and tour booking functionality.</p>
+      <div class="tech-stack">
+        <span class="tech-pill">Landing Page</span>
+        <span class="tech-pill">Tour Catalog</span>
+        <span class="tech-pill">Lead Capture</span>
+        <span class="tech-pill">Mobile Responsive</span>
+        <span class="tech-pill">SEO Optimized</span>
+      </div>
+      <span class="proj-link">View Live Site <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 3. Verdun Agency -->
+  <a class="project-card" href="https://www.verdunagency.com/" target="_blank" rel="noopener">
+    <div class="project-thumb proj-verdun">
+      <div class="browser-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url-bar">verdunagency.com</div>
+      </div>
+      <div class="browser-content">
+        <div class="proj-nav-mock">
+          <div class="nav-dot-mock accent"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div>
+        </div>
+        <div class="proj-hero-bar" style="flex:1; background:linear-gradient(135deg, #1b3a6b 0%, #0d2040 100%)">
+          <div class="proj-title-mock">Verdun's Agency, LLC</div>
+          <div class="proj-sub-mock">Patterson &amp; Morgan City, Louisiana</div>
+          <div style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap; justify-content:center;">
+            <div style="font-size:7px; color:rgba(255,255,255,.7); background:rgba(255,255,255,.1); padding:2px 6px; border-radius:2px;">Auto</div>
+            <div style="font-size:7px; color:rgba(255,255,255,.7); background:rgba(255,255,255,.1); padding:2px 6px; border-radius:2px;">Home</div>
+            <div style="font-size:7px; color:rgba(255,255,255,.7); background:rgba(255,255,255,.1); padding:2px 6px; border-radius:2px;">Flood</div>
+            <div style="font-size:7px; color:rgba(255,255,255,.7); background:rgba(255,255,255,.1); padding:2px 6px; border-radius:2px;">Commercial</div>
+          </div>
+        </div>
+        <div class="proj-body-mock">
+          <div class="mock-col"><div class="mock-line w80"></div><div class="mock-line w60"></div><div class="mock-btn-mock"></div></div>
+          <div class="mock-col"><div class="mock-line w60"></div><div class="mock-line w80"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-info">
+      <div class="proj-category">Insurance · Louisiana, USA</div>
+      <div class="proj-name">Verdun's Agency, LLC</div>
+      <p class="proj-desc">Full-service insurance agency website for a family-owned Louisiana business offering auto, home, commercial, flood, and specialty insurance. Multi-page site with quote forms for each insurance category and customer service portals.</p>
+      <div class="tech-stack">
+        <span class="tech-pill">Multi-page Site</span>
+        <span class="tech-pill">Quote Forms</span>
+        <span class="tech-pill">Customer Portal</span>
+        <span class="tech-pill">US Business</span>
+        <span class="tech-pill">Insurance Vertical</span>
+      </div>
+      <span class="proj-link">View Live Site <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 4. Your Global Communications -->
+  <a class="project-card" href="https://www.yourglobalcommunications.com/" target="_blank" rel="noopener">
+    <div class="project-thumb proj-global">
+      <div class="browser-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url-bar">yourglobalcommunications.com</div>
+      </div>
+      <div class="browser-content">
+        <div class="proj-nav-mock">
+          <div class="nav-dot-mock accent"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div><div class="nav-dot-mock"></div>
+        </div>
+        <div class="proj-hero-bar" style="flex:1; background:linear-gradient(135deg, #1a3a5c 0%, #0a1e30 100%)">
+          <div class="proj-title-mock">Your Global Communications</div>
+          <div class="proj-sub-mock">Internet · Security · Business · Fort Worth, TX</div>
+          <div style="margin-top:8px; display:flex; gap:6px;">
+            <div style="width:50px; height:14px; background:rgba(55,138,221,.7); border-radius:2px;"></div>
+            <div style="width:50px; height:14px; background:rgba(255,255,255,.12); border-radius:2px;"></div>
+          </div>
+        </div>
+        <div class="proj-body-mock">
+          <div class="mock-col"><div class="mock-line w80"></div><div class="mock-line w60"></div><div class="mock-line w40"></div></div>
+          <div class="mock-col"><div class="mock-line w60"></div><div class="mock-line w80"></div><div class="mock-btn-mock" style="background:rgba(55,138,221,.6)"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="project-info">
+      <div class="proj-category">Telecom · Fort Worth, TX, USA</div>
+      <div class="proj-name">Your Global Communications</div>
+      <p class="proj-desc">Professional telecom dealer website for a Fort Worth, Texas business offering internet, home security, and business communication solutions. Features multi-provider comparisons, booking system integration, promotional offers, and lead generation flows.</p>
+      <div class="tech-stack">
+        <span class="tech-pill">Telecom / ISP</span>
+        <span class="tech-pill">Booking Integration</span>
+        <span class="tech-pill">Lead Generation</span>
+        <span class="tech-pill">US Business</span>
+        <span class="tech-pill">Promo System</span>
+      </div>
+      <span class="proj-link">View Live Site <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+</div>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="skills-inner">
+    <h2>Skills &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <div class="skill-name">HTML / CSS</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:95%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Responsive Design</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:95%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Landing Pages</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:92%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Lead Gen Systems</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Admin Dashboards</div>
+        <div class="skill-level">Intermediate</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">SEO Optimization</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:82%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">3rd-party Integrations</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact">
+  <div class="cta-section">
+    <div>
+      <h2>Have a project in mind? Let's <em>build it.</em></h2>
+    </div>
+    <a class="cta-btn" href="mailto:your@email.com">Get in Touch →</a>
+  </div>
+</section>
+
+<div class="section-rule"><div style="height:0"></div></div>
+
+<footer>
+  <p>© 2025 3D Leads — Web Development</p>
+  <p>Lahore, Pakistan</p>
+</footer>
+
+</body>
+</html>
